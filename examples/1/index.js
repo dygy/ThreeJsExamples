@@ -76,7 +76,7 @@ $(function () {
     $("#WebGL-output").append(renderer.domElement);
 
     // call the render function
-    var step=1;
+    var step=0;
 
     var controls = new function() {
         this.rotationSpeed = 0.02;
