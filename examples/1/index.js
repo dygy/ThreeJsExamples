@@ -31,7 +31,7 @@ $(function () {
     scene.add(plane);
     // create a cube
     var cubeGeometry = new THREE.CubeGeometry(4,4,4);
-    var cubeMaterial = new THREE.MeshLambertMaterial({color: 0xff0000});
+    var cubeMaterial = new THREE.MeshLambertMaterial({color: 0xfff000});
     var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
     cube.castShadow = true;
 
