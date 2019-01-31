@@ -11,12 +11,12 @@ $(function () {
     // create a render and set the size
     var renderer = new THREE.WebGLRenderer();
 
-    renderer.setClearColor(new THREE.Color(0xEEEEEE));
+    renderer.setClearColor( 0xeeeeee, 0);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.shadowMapEnabled = true;
+    renderer.shadowMap.enabled = true;
 
     // create the ground plane
-    var planeGeometry = new THREE.PlaneGeometry(60,20,1,1);
+    var planeGeometry = new THREE.PlaneGeometry(60,20,0,0);
     var planeMaterial =    new THREE.MeshLambertMaterial({color: 0xffffff});
     var plane = new THREE.Mesh(planeGeometry,planeMaterial);
     plane.receiveShadow  = true;
@@ -29,7 +29,6 @@ $(function () {
 
     // add the plane to the scene
     scene.add(plane);
-
     // create a cube
     var cubeGeometry = new THREE.CubeGeometry(4,4,4);
     var cubeMaterial = new THREE.MeshLambertMaterial({color: 0xff0000});
@@ -77,7 +76,7 @@ $(function () {
     $("#WebGL-output").append(renderer.domElement);
 
     // call the render function
-    var step=0;
+    var step=1;
 
     var controls = new function() {
         this.rotationSpeed = 0.02;
@@ -89,7 +88,6 @@ $(function () {
     gui.add(controls, 'bouncingSpeed',0,0.5);
 
     render();
-
     function render() {
         stats.update();
         // rotate the cube around its axes
