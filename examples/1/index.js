@@ -1,5 +1,4 @@
 $(function () {
-
     var stats = initStats();
 
     // create a scene, that will hold all our elements such as objects, cameras and lights.
