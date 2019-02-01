@@ -1,5 +1,5 @@
 const stats = new Stats();
-stats.setMode( 1 );
+stats.setMode( 0 );
 document.body.appendChild( stats.domElement );
 
 const canvas = document.createElement('canvas');
