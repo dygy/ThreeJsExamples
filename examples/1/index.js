@@ -1,23 +1,23 @@
 $(function () {
-    var stats = initStats();
+    const stats = initStats();
 
     // create a scene, that will hold all our elements such as objects, cameras and lights.
-    var scene = new THREE.Scene();
+    const scene = new THREE.Scene();
 
     // create a camera, which defines where we're looking at.
-    var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 
     // create a render and set the size
-    var renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer();
 
     renderer.setClearColor( 0xeeeeee, 0);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
 
     // create the ground plane
-    var planeGeometry = new THREE.PlaneGeometry(60,20,0,0);
-    var planeMaterial =    new THREE.MeshLambertMaterial({color: 0xffffff});
-    var plane = new THREE.Mesh(planeGeometry,planeMaterial);
+    let planeGeometry = new THREE.PlaneGeometry(60, 20, 0, 0);
+    let planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff});
+    let plane = new THREE.Mesh(planeGeometry, planeMaterial);
     plane.receiveShadow  = true;
 
     // rotate and position the plane
@@ -29,9 +29,9 @@ $(function () {
     // add the plane to the scene
     scene.add(plane);
     // create a cube
-    var cubeGeometry = new THREE.CubeGeometry(4,4,4);
-    var cubeMaterial = new THREE.MeshLambertMaterial({color: 0xfff000});
-    var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+    let cubeGeometry = new THREE.CubeGeometry(4, 4, 4);
+    let cubeMaterial = new THREE.MeshLambertMaterial({color: 0xfff000});
+    let cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
     cube.castShadow = true;
 
     // position the cube
@@ -42,9 +42,9 @@ $(function () {
     // add the cube to the scene
     scene.add(cube);
 
-    var sphereGeometry = new THREE.SphereGeometry(4,20,20);
-    var sphereMaterial = new THREE.MeshLambertMaterial({color: 0x7777ff});
-    var sphere = new THREE.Mesh(sphereGeometry,sphereMaterial);
+    let sphereGeometry = new THREE.SphereGeometry(4, 20, 20);
+    let sphereMaterial = new THREE.MeshLambertMaterial({color: 0x7777ff});
+    let sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 
     // position the sphere
     sphere.position.x=20;
@@ -62,11 +62,11 @@ $(function () {
     camera.lookAt(scene.position);
 
     // add subtle ambient lighting
-    var ambientLight = new THREE.AmbientLight(0x0c0c0c);
+    let ambientLight = new THREE.AmbientLight(0x0c0c0c);
     scene.add(ambientLight);
 
     // add spotlight for the shadows
-    var spotLight = new THREE.SpotLight( 0xffffff );
+    let spotLight = new THREE.SpotLight( 0xffffff );
     spotLight.position.set( -40, 60, -10 );
     spotLight.castShadow = true;
     scene.add( spotLight );
@@ -75,14 +75,14 @@ $(function () {
     $("#WebGL-output").append(renderer.domElement);
 
     // call the render function
-    var step=0;
+    let step=0;
 
-    var controls = new function() {
+    const controls = new function() {
         this.rotationSpeed = 0.02;
         this.bouncingSpeed = 0.03;
     };
 
-    var gui = new dat.GUI();
+    const gui = new dat.GUI();
     gui.add(controls, 'rotationSpeed',0,0.5);
     gui.add(controls, 'bouncingSpeed',0,0.5);
 
@@ -106,7 +106,7 @@ $(function () {
 
     function initStats() {
 
-        var stats = new Stats();
+        const stats = new Stats();
 
         stats.setMode(0); // 0: fps, 1: ms
 
