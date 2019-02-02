@@ -7,7 +7,6 @@ $(function () {
 
     // create a camera, which defines where we're looking at.
     let camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-
     // create a render and set the size
     const renderer = new THREE.WebGLRenderer();
 
@@ -55,7 +54,6 @@ $(function () {
     let far=1000;
 
     let controls = new function () {
-
         this.rotationSpeed = 0.02;
         this.numberOfObjects = scene.children.length;
         this.fog= "no";
@@ -89,10 +87,54 @@ $(function () {
             this.numberOfObjects = scene.children.length;
         };
         scene.fog = new THREE.Fog(0xffffff, near, far);
-        this.outputObjects = function () {
-            console.log(scene.children);
-        };
 
+        this.switchCamera = function() {
+            if (camera instanceof THREE.PerspectiveCamera) {
+                camera = new THREE.OrthographicCamera( window.innerWidth / - 16, window.innerWidth / 16, window.innerHeight / 16, window.innerHeight / - 16, -200, 500 );
+                camera.position.x = 2;
+                camera.position.y = 1;
+                camera.position.z = 3;
+                camera.lookAt(scene.position);
+                if (controls.fog === 'no'){
+                    near= 100;
+                    far= 100;
+                    scene.fog = new THREE.Fog(0xffffff, near, far);
+                }
+                else if (controls.fog === 'easy') {
+                    far = 2;
+                    near = -1;
+                    scene.fog = new THREE.Fog(0xffffff, near, far);
+                }
+                else if (controls.fog === 'hard') {
+                    far = 1;
+                    near = -2;
+                    scene.fog = new THREE.Fog(0xffffff, near, far);
+                }
+            } else {
+                camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+                camera.position.x = -30;
+                camera.position.y = 40;
+                camera.position.z = 30;
+                camera.lookAt(scene.position);
+                if (controls.fog === 'no'){
+                    near=100;
+                    far=1000;
+                    scene.fog = new THREE.Fog(0xffffff, near, far);
+                }
+                else if (controls.fog === 'easy') {
+                    far = 200;
+                    near = 30;
+                    scene.fog = new THREE.Fog(0xffffff, near, far);
+                }
+                else if (controls.fog === 'hard') {
+                    far = 100;
+                    near = 20;
+                    scene.fog = new THREE.Fog(0xffffff, near, far);
+                }
+            }
+
+        };
 
     };
 
@@ -100,29 +142,42 @@ $(function () {
     gui.add(controls, 'rotationSpeed',0,0.5);
     gui.add(controls, 'addCube');
     gui.add(controls, 'removeCube');
-    gui.add(controls, 'outputObjects');
-    gui.add(controls, 'fog', ['no', 'easy', 'hard']).
-    onChange(
-        function() {
-            if (controls.fog === 'no'){
-                near=100;
-                far=1000;
+    gui.add(controls, 'switchCamera');
+    gui.add(controls, 'numberOfObjects').listen();
+    gui.add(controls, 'fog', ['no', 'easy', 'hard']).onChange(function() {
+        if (camera instanceof THREE.PerspectiveCamera) {
+            if (controls.fog === 'no') {
+                near = 100;
+                far = 1000;
                 scene.fog = new THREE.Fog(0xffffff, near, far);
-            }
-            else if (controls.fog === 'easy') {
-                far = 200;
-                near = 30;
+            } else if (controls.fog === 'easy') {
+                far = 150;
+                near = 25;
                 scene.fog = new THREE.Fog(0xffffff, near, far);
-            }
-            else if (controls.fog === 'hard') {
+            } else if (controls.fog === 'hard') {
                 far = 100;
                 near = 20;
                 scene.fog = new THREE.Fog(0xffffff, near, far);
             }
         }
-    );
+            else {
+            if (controls.fog === 'no') {
+                near = 100;
+                far = 100;
+                scene.fog = new THREE.Fog(0xffffff, near, far);
+            } else if (controls.fog === 'easy') {
+                far = 2;
+                near = -1;
+                scene.fog = new THREE.Fog(0xffffff, near, far);
+            } else if (controls.fog === 'hard') {
+                far = 1;
+                near = -2;
+                scene.fog = new THREE.Fog(0xffffff, near, far);
+            }
+        }
+    });
 
-    gui.add(controls, 'numberOfObjects').listen();
+
     render();
 
     function render() {
