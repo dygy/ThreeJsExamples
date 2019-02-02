@@ -3,7 +3,7 @@ $(function () {
     const stats = initStats();
 
     // create a scene, that will hold all our elements such as objects, cameras and lights.
-    const scene = new THREE.Scene();
+    let scene = new THREE.Scene();
 
     // create a camera, which defines where we're looking at.
     let camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -138,7 +138,7 @@ $(function () {
 
     };
 
-    const gui = new dat.GUI();
+    let gui = new dat.GUI();
     gui.add(controls, 'rotationSpeed',0,0.5);
     gui.add(controls, 'addCube');
     gui.add(controls, 'removeCube');
