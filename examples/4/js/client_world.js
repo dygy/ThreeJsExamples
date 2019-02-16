@@ -1,6 +1,6 @@
+
 let lastMessage;
-let ready;
-let started = '';
+let spam=false;
 // event emmited when connected
 
 let time;
@@ -16,8 +16,8 @@ const boxSize={
     z:0
 };
 const cubeSize={
-    xyz:null,
-    height:null
+    xyz:0,
+    height:0
 };
 let cubeGeometry;
 let cubeMaterial;
@@ -127,14 +127,22 @@ function moveZ() {todo='DOWNLEFT';}
 function moveX() {todo='DOWNRIGHT';}
 function smaller() {todo='SMALLER';}
 function bigger() {todo='BIGGER';}
-
+function antiSpam(message) {
+    if (message !== lastMessage ){
+        lastMessage=message;
+    }
+}
 
 function animate() {
-    console.log(cubeSize.xyz+' '+' '+ cube.position.x+' '+boxWinSize+' '+ boxWin.position.x);
+    console.log(cubeSize.xyz+' '+' '+ cube.position.x+' '+ cube.position.z+' '+boxWinSize+' '+ boxWin.position.x+' '+ boxWin.position.z);
     if (Math.abs(cube.position.x)>boxSize.x/2||
         Math.abs(cube.position.z)>boxSize.z/2) {todo='FALL';}
-    if (cubeSize.xyz===boxWinSize && (cube.position.x===boxWin.position.x ||cube.position.x===boxWin.position.z)){
-        alert('You won!');
+    if (cubeSize.xyz===boxWinSize && ((Math.abs(cube.position.x-boxWin.position.x)<0.100 && Math.abs(cube.position.z-boxWin.position.z)<0.100 )||(Math.abs(cube.position.x-boxWin.position.z)<0.100)&& Math.abs(cube.position.z-boxWin.position.x)<0.100)){
+        if (!spam) {
+            alert('You won!');
+            spam=true;
+            location.reload();
+        }
     }
     requestAnimationFrame(animate);
     if (todo === 'SMALLER') {
@@ -199,8 +207,6 @@ function animate() {
         }
     }
     else if (todo === 'DOWNRIGHT') {
-        started='DOWNRIGHT'
-
         time += 0.01;
         cube.rotateY(DEGTORAD);
         cube.translateZ(-0.01);
@@ -210,7 +216,6 @@ function animate() {
         }
     }
     else if (todo === 'DOWNLEFT') {
-        started='DOWN'
         time += 0.01;
         cube.rotateY(-DEGTORAD);
         cube.translateZ(-0.01);
@@ -246,7 +251,7 @@ function animate() {
             todo = '';
             time = 0;
         }
-
+        antiSpam('FALL');
         setTimeout(() => {
             location.reload();
         }, 3000);
@@ -260,3 +265,4 @@ function animate() {
     renderer.render(scene, camera);
 
 }
+
